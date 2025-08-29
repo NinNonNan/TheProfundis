@@ -6,21 +6,21 @@
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond&family=Dancing+Script&display=swap" rel="stylesheet">
 <style>
-/* Stile del link con bagliore animato */
+/* Stile del link con bagliore dorato */
 .intro-note a {
     font-family: 'Dancing Script', cursive;
-    color: #ccc;
+    color: #FFD700; /* dorato */
     text-decoration: underline;
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #aaa, 0 0 30px #aaa;
+    text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 20px #FFA500, 0 0 30px #FFA500;
     animation: glow 1.5s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
     from {
-        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #aaa, 0 0 30px #aaa;
+        text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 20px #FFA500, 0 0 30px #FFA500;
     }
     to {
-        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ccc, 0 0 40px #ccc;
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFA500, 0 0 40px #FFA500;
     }
 }
 </style>
@@ -37,7 +37,7 @@
     <h1>Invito Ufficiale</h1>
     <h2 id="intestazione-societa">Compagnia De Profundis</h2>
 
-    <form id="anagrafica">
+    <form id="anagrafica" action="https://script.google.com/macros/s/AKfycbw8ixFQxfnfARwL7mKKC72LgKDFO3W9SK2Q6XBqKOEaYDYKVYRFJUXtK66tf6TBYJm7fw/exec" method="get" target="hidden_iframe">
       <input type="hidden" id="societa" name="societa" value="Compagnia De Profundis">
 
       <label for="titolo">Appellativo</label>
@@ -66,56 +66,39 @@
 
       <button type="submit" id="submit-btn">Archivia</button>
     </form>
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
   </div>
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw8ixFQxfnfARwL7mKKC72LgKDFO3W9SK2Q6XBqKOEaYDYKVYRFJUXtK66tf6TBYJm7fw/exec";
-
-// Imposta società se passata via URL
 function getQueryParam(param) {
   let urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
 }
+
+// Imposta società se passata via URL
 const societaFromUrl = getQueryParam("societa");
 if (societaFromUrl) {
   document.getElementById("societa").value = societaFromUrl;
   document.getElementById("intestazione-societa").innerText = societaFromUrl;
 }
 
-// Gestione submit con fetch
-document.getElementById("anagrafica").addEventListener("submit", function(e){
-  e.preventDefault();
+// Gestione submit con iframe
+const form = document.getElementById("anagrafica");
+const iframe = document.getElementById("hidden_iframe");
+const submitBtn = document.getElementById("submit-btn");
 
-  const submitBtn = document.getElementById("submit-btn");
-  submitBtn.disabled = true; // disabilita subito il pulsante
-
-  const params = {
-    societa: document.getElementById("societa").value,
-    titolo: document.getElementById("titolo").value,
-    nome: document.getElementById("nome").value,
-    cognome: document.getElementById("cognome").value,
-    luogo: document.getElementById("luogo").value,
-    data: document.getElementById("data").value,
-    professione: document.getElementById("professione").value,
-    indirizzo: document.getElementById("indirizzo").value,
-    note: document.getElementById("note").value
-  };
-
-  const queryString = Object.keys(params)
-    .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
-    .join("&");
-
-  fetch(WEB_APP_URL + "?" + queryString)
-    .then(res => res.text())  // qui ricevi direttamente il link della cartella
-    .then(folderUrl => {
-      document.getElementById("intro-note").innerHTML =
-        'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
-    })
-    .catch(err => {
-      document.getElementById("intro-note").innerText = "Errore nell'invio dei dati: " + err;
-      submitBtn.disabled = false; // riabilita in caso di errore
-    });
+iframe.addEventListener("load", function() {
+  try {
+    const folderUrl = iframe.contentDocument.body.innerText.trim();
+    document.getElementById("intro-note").innerHTML = 
+      'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
+    submitBtn.disabled = true;
+  } catch(e) {
+    console.error("Errore nel recupero del link: ", e);
+    document.getElementById("intro-note").innerText = "Errore nell'invio dei dati, riprova.";
+    submitBtn.disabled = false;
+  }
 });
 </script>
 </body>
