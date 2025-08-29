@@ -56,6 +56,14 @@
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKSKKCNMPKOtC7Sd3enNA0fqLPdHlhd60cVJKDrDXCEAc_ykf2CmKR72ffEkvAxLmlVw/exec";
 
+// Sovrascrive il valore di società se presente nel parametro URL
+const urlParams = new URLSearchParams(window.location.search);
+const societaParam = urlParams.get("societa");
+if (societaParam) {
+  document.getElementById("societa").value = societaParam;
+  document.getElementById("intestazione-societa").innerText = societaParam;
+}
+
 document.getElementById("anagrafica").addEventListener("submit", function(e){
   e.preventDefault();
   const submitBtn = document.getElementById("submit-btn");
@@ -67,17 +75,14 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
   fetch(WEB_APP_URL + "?" + queryString)
     .then(res => res.text())
     .then(folderUrl => {
-      // Nasconde il pulsante
       submitBtn.style.display = "none";
 
-      // Crea il separatore Art Deco
       const separator = `
         <div class="form-separator">
           <span></span><span></span><span></span>
         </div>
       `;
 
-      // Mostra il separatore + messaggio personalizzato
       document.getElementById("form-response").innerHTML =
         separator +
         'Bene ' + params.titolo + ' ' + params.cognome + ', il tuo viaggio comincia.<br>Puoi trovare <a href="' + folderUrl + '" target="_blank">QUI</a> le istruzioni per muovere i primi passi...';
