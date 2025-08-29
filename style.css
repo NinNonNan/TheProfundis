@@ -14,17 +14,17 @@ body {
 }
 
 .intro-note {
-font-family: 'Dancing Script', cursive;
-font-size: 1.9rem;
-margin-bottom: 3rem;
-text-align: left;
-background-color: #fff6e5;
-padding: 20px 25px;
-border: 1px solid #d0b48c;
-box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-line-height: 1.8;
-white-space: pre-wrap;
-transform: rotate(-2deg);
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.9rem;
+  margin-bottom: 3rem;
+  text-align: left;
+  background-color: #fff6e5;
+  padding: 20px 25px;
+  border: 1px solid #d0b48c;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  transform: rotate(-2deg);
 }
 
 .form-container {
@@ -106,11 +106,17 @@ button:hover {
 
 /* Link dorato più visibile e coerente con il font del messaggio */
 #form-response a {
-    font-family: 'Cinzel Decorative', serif; /* usa lo stesso font del resto */
-    color: #b8860b; /* oro scuro più visibile */
+    font-family: 'Cinzel Decorative', serif;
+    color: #b8860b; /* oro scuro */
     text-decoration: underline;
     text-shadow: 0 0 2px #fff, 0 0 5px #b8860b, 0 0 10px #b8860b;
     font-weight: bold;
+}
+
+#form-response {
+    margin-top: 1.5rem; /* spazio tra l'ultimo campo e la risposta */
+    font-family: 'Cormorant Garamond', serif; /* font coerente con i campi */
+    font-size: 1rem;
 }
 
 @keyframes glow {
