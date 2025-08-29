@@ -54,7 +54,7 @@
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKSKKCNMPKOtC7Sd3enNA0fqLPdHlhd60cVJKDrDXCEAc_ykf2CmKR72ffEkvAxLmlVw/exec"; // sostituire con il tuo ID
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKSKKCNMPKOtC7Sd3enNA0fqLPdHlhd60cVJKDrDXCEAc_ykf2CmKR72ffEkvAxLmlVw/exec";
 
 document.getElementById("anagrafica").addEventListener("submit", function(e){
   e.preventDefault();
@@ -65,17 +65,20 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
   const queryString = new URLSearchParams(params).toString();
 
   fetch(WEB_APP_URL + "?" + queryString)
-    .then(res => res.text())  // il server restituisce direttamente l'URL della cartella
+    .then(res => res.text())
     .then(folderUrl => {
+      // Nasconde il pulsante
+      submitBtn.style.display = "none";
+
+      // Mostra il messaggio personalizzato
       document.getElementById("form-response").innerHTML =
-        'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
+        'Bene ' + params.titolo + ' ' + params.cognome + ', il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
     })
     .catch(err => {
-      document.getElementById("form-response").innerText = "Errore nell\'invio dei dati: " + err;
+      document.getElementById("form-response").innerText = "Errore nell'invio dei dati: " + err;
       submitBtn.disabled = false;
     });
 });
 </script>
 </body>
 </html>
-
