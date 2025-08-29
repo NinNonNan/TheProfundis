@@ -8,98 +8,60 @@
 </head>
 <body>
 <div class="container">
-<div class="intro-note">
-La tua mente, audace e curiosa, ti ha condotto fin qui.<br>Oggi varchi la prima soglia verso un mondo più vasto, dove le risposte si nascondono tra ombre insondabili, e ogni verità svela nuove, oscure domande.
+
+  <div class="intro-note">
+    La tua mente, audace e curiosa, ti ha condotto fin qui.<br>
+    Oggi varchi la prima soglia verso un mondo più vasto, dove le risposte si nascondono tra ombre insondabili, e ogni verità svela nuove, oscure domande.
+  </div>
+
+  <div class="form-container">
+    <h1>Invito Ufficiale</h1>
+    <h2 id="intestazione-societa">Compagnia De Profundis</h2>
+
+    <form id="anagrafica" action="https://script.google.com/macros/s/AKfycby7yHKmPaoleksagcCeOJGZY7o9l66S05QAkPJ3upVsPl3H7blxkrQnRO-Uu93eWk16Xw/exec" method="get" target="hidden_iframe">
+      <input type="hidden" id="societa" name="societa" value="Compagnia De Profundis">
+
+      <label for="titolo">Appellativo</label>
+      <input type="text" id="titolo" name="titolo" placeholder="Es. Dottoressa, Signor, Professoressa">
+
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" name="nome">
+
+      <label for="cognome">Cognome</label>
+      <input type="text" id="cognome" name="cognome">
+
+      <label for="luogo">Luogo di Nascita</label>
+      <input type="text" id="luogo" name="luogo">
+
+      <label for="data">Data di Nascita</label>
+      <input type="date" id="data" name="data">
+
+      <label for="professione">Professione</label>
+      <input type="text" id="professione" name="professione">
+
+      <label for="indirizzo">Indirizzo</label>
+      <input type="text" id="indirizzo" name="indirizzo">
+
+      <label for="note">Note (tratti distintivi, legami, segreti)</label>
+      <textarea id="note" name="note" rows="4"></textarea>
+
+      <button type="submit">Archivia</button>
+    </form>
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
+  </div>
 </div>
-
-
-<div class="form-container">
-<h1>Invito Ufficiale</h1>
-<h2 id="intestazione-societa">Compagnia De Profundis</h2>
-
-
-<form id="anagrafica">
-<input type="hidden" id="societa" name="societa" value="Compagnia De Profundis">
-
-
-<label for="titolo">Appellativo</label>
-<input type="text" id="titolo" name="titolo" placeholder="Es. Dottoressa, Signor, Professoressa">
-
-
-<label for="nome">Nome</label>
-<input type="text" id="nome" name="nome">
-
-
-<label for="cognome">Cognome</label>
-<input type="text" id="cognome" name="cognome">
-
-
-<label for="luogo">Luogo di Nascita</label>
-<input type="text" id="luogo" name="luogo">
-
-
-<label for="data">Data di Nascita</label>
-<input type="date" id="data" name="data">
-
-
-<label for="professione">Professione</label>
-<input type="text" id="professione" name="professione">
-
-
-<label for="indirizzo">Indirizzo</label>
-<input type="text" id="indirizzo" name="indirizzo">
-
-
-<label for="note">Note (tratti distintivi, legami, segreti)</label>
-<textarea id="note" name="note" rows="4"></textarea>
-
-
-<button type="submit">Archivia</button>
-</form>
-</div>
-</div>
-
 
 <script>
 function getQueryParam(param) {
-let urlParams = new URLSearchParams(window.location.search);
-return urlParams.get(param);
+  let urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
 }
-
 
 const societaFromUrl = getQueryParam("societa");
 if (societaFromUrl) {
-document.getElementById("societa").value = societaFromUrl;
-document.getElementById("intestazione-societa").innerText = societaFromUrl;
+  document.getElementById("societa").value = societaFromUrl;
+  document.getElementById("intestazione-societa").innerText = societaFromUrl;
 }
-
-
-document.getElementById("anagrafica").addEventListener("submit", function(e) {
-e.preventDefault();
-
-
-let data = {
-societa: document.getElementById("societa").value,
-titolo: document.getElementById("titolo").value,
-nome: document.getElementById("nome").value,
-cognome: document.getElementById("cognome").value,
-luogo: document.getElementById("luogo").value,
-data: document.getElementById("data").value,
-professione: document.getElementById("professione").value,
-indirizzo: document.getElementById("indirizzo").value,
-note: document.getElementById("note").value
-};
-
-
-fetch("https://script.google.com/macros/s/AKfycbwFt-0OYkyhAbC1HXJyvzdLplwuE9j6fOT4-Y5d9eMcwfaazo-dFGnH1kUJZqnk8Lpkcg/exec", {
-method: "POST",
-body: JSON.stringify(data),
-headers: { "Content-Type": "application/json" }
-})
-.then(res => res.text())
-.then(txt => alert("Dati salvati nel registro!"))
-.catch(err => alert("Errore: " + err));
-});
 </script>
 </body>
 </html>
