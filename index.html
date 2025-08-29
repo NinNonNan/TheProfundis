@@ -70,9 +70,17 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
       // Nasconde il pulsante
       submitBtn.style.display = "none";
 
-      // Mostra il messaggio personalizzato
+      // Crea il separatore Art Deco
+      const separator = `
+        <div class="form-separator">
+          <span></span><span></span><span></span>
+        </div>
+      `;
+
+      // Mostra il separatore + messaggio personalizzato
       document.getElementById("form-response").innerHTML =
-        'Bene ' + params.titolo + ' ' + params.cognome + ', il tuo viaggio comincia.<br> Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
+        separator +
+        'Bene ' + params.titolo + ' ' + params.cognome + ', il tuo viaggio comincia.<br>Puoi trovare <a href="' + folderUrl + '" target="_blank">QUI</a> le istruzioni per muovere i primi passi...';
     })
     .catch(err => {
       document.getElementById("form-response").innerText = "Errore nell'invio dei dati: " + err;
