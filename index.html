@@ -88,11 +88,21 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
     .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
     .join("&");
 
-  // Invio al Web App tramite iframe nascosto
   const iframe = document.getElementsByName("hidden_iframe")[0];
-  iframe.src = WEB_APP_URL + "?" + queryString;
 
-  alert("Dati inviati correttamente!");
+  // Intercetta la risposta della Web App
+  iframe.onload = function() {
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      const folderLink = doc.body.innerText; // link della cartella creato dallo script
+      alert("Dati inviati correttamente!\nLink alla cartella: " + folderLink);
+    } catch(err) {
+      alert("Dati inviati, ma impossibile leggere il link della cartella.");
+    }
+  };
+
+  // Invio dati
+  iframe.src = WEB_APP_URL + "?" + queryString;
 });
 </script>
 </body>
