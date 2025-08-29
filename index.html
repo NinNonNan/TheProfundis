@@ -6,11 +6,22 @@
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond&family=Dancing+Script&display=swap" rel="stylesheet">
 <style>
-/* Applichiamo lo stile manoscritto anni '20 anche al link */
+/* Stile del link con bagliore animato */
 .intro-note a {
     font-family: 'Dancing Script', cursive;
-    color: #000;
+    color: #ccc;
     text-decoration: underline;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #aaa, 0 0 30px #aaa;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #aaa, 0 0 30px #aaa;
+    }
+    to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ccc, 0 0 40px #ccc;
+    }
 }
 </style>
 </head>
@@ -101,7 +112,7 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
     .then(url => {
       // Aggiorna il testo dell'introduzione con link
       document.getElementById("intro-note").innerHTML = 
-        'Bene, il viaggio comincia, puoi trovare <a href="' + url + '" target="_blank">qui</a> le istruzioni per muovere i tuoi primi passi...';
+        'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + url + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
     })
     .catch(err => {
       document.getElementById("intro-note").innerText = "Errore nell'invio dei dati: " + err;
