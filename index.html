@@ -109,10 +109,10 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
 
   fetch(WEB_APP_URL + "?" + queryString)
     .then(res => res.text())
-    .then(url => {
-      const safeUrl = encodeURI(url.trim());
+    .then(folderUrl => {
+      // Aggiorna il testo dell'introduzione con link alla cartella
       document.getElementById("intro-note").innerHTML = 
-        'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + safeUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
+        'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
     })
     .catch(err => {
       document.getElementById("intro-note").innerText = "Errore nell'invio dei dati: " + err;
