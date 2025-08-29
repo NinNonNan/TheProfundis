@@ -37,7 +37,7 @@
     <h1>Invito Ufficiale</h1>
     <h2 id="intestazione-societa">Compagnia De Profundis</h2>
 
-    <form id="anagrafica">
+    <form id="anagrafica" target="hidden_iframe" method="get" action="https://script.google.com/macros/s/AKfycbw8ixFQxfnfARwL7mKKC72LgKDFO3W9SK2Q6XBqKOEaYDYKVYRFJUXtK66tf6TBYJm7fw/exec">
       <input type="hidden" id="societa" name="societa" value="Compagnia De Profundis">
 
       <label for="titolo">Appellativo</label>
@@ -66,12 +66,12 @@
 
       <button type="submit" id="submit-btn">Archivia</button>
     </form>
+
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
   </div>
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw8ixFQxfnfARwL7mKKC72LgKDFO3W9SK2Q6XBqKOEaYDYKVYRFJUXtK66tf6TBYJm7fw/exec";
-
 function getQueryParam(param) {
   let urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
@@ -84,40 +84,27 @@ if (societaFromUrl) {
   document.getElementById("intestazione-societa").innerText = societaFromUrl;
 }
 
-// Gestione submit con fetch
+// Disabilita pulsante e aggiorna messaggio dopo invio
 document.getElementById("anagrafica").addEventListener("submit", function(e){
-  e.preventDefault();
-
   const submitBtn = document.getElementById("submit-btn");
-  submitBtn.disabled = true; // disabilita il pulsante
+  submitBtn.disabled = true;
 
-  const params = {
-    societa: document.getElementById("societa").value,
-    titolo: document.getElementById("titolo").value,
-    nome: document.getElementById("nome").value,
-    cognome: document.getElementById("cognome").value,
-    luogo: document.getElementById("luogo").value,
-    data: document.getElementById("data").value,
-    professione: document.getElementById("professione").value,
-    indirizzo: document.getElementById("indirizzo").value,
-    note: document.getElementById("note").value
-  };
+  // Aggiorna testo di introduzione con messaggio di invio in corso
+  document.getElementById("intro-note").innerText = "Invio dei dati in corso...";
 
-  const queryString = Object.keys(params)
-    .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
-    .join("&");
-
-  fetch(WEB_APP_URL + "?" + queryString)
-    .then(res => res.text())
-    .then(folderUrl => {
-      // Aggiorna il testo dell'introduzione con link alla cartella
+  // Ascolta il caricamento dell'iframe per ottenere il link generato
+  const iframe = document.getElementsByName("hidden_iframe")[0];
+  iframe.onload = function() {
+    try {
+      // Recupera il link dalla Web App (il testo restituito dalla funzione doGet)
+      const folderUrl = iframe.contentDocument.body.innerText;
       document.getElementById("intro-note").innerHTML = 
         'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
-    })
-    .catch(err => {
-      document.getElementById("intro-note").innerText = "Errore nell'invio dei dati: " + err;
-      submitBtn.disabled = false; // riabilita in caso di errore
-    });
+    } catch(err) {
+      document.getElementById("intro-note").innerText = "Errore nel recupero del link: " + err;
+      submitBtn.disabled = false;
+    }
+  };
 });
 </script>
 </body>
