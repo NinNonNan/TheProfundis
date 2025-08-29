@@ -103,3 +103,17 @@ button {
 button:hover {
   background: #444;
 }
+
+/* Link dorato animato */
+#form-response a {
+    font-family: 'Dancing Script', cursive;
+    color: gold;
+    text-decoration: underline;
+    text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold; }
+    to { text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px gold; }
+}
