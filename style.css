@@ -124,36 +124,31 @@ button:hover {
     to { text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px gold; }
 }
 
-/* Separatore Art Deco dinamico */
+/* Separatore Art Deco elegante, visibile solo con risposta */
 .form-separator {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2.5rem 0; /* spazio sopra e sotto */
 }
 
 .form-separator span {
-  display: inline-block;
-  width: 40px;
-  height: 4px;
-  background: #000;
-  border-radius: 2px;
-  position: relative;
+    display: block;
+    height: 2px;
+    background-color: #2b2b2b;
 }
 
-.form-separator span:nth-child(2)::before,
-.form-separator span:nth-child(2)::after {
-  content: '';
-  position: absolute;
-  top: -6px;
-  width: 6px;
-  height: 16px;
-  background: #000;
+.form-separator span:first-child,
+.form-separator span:last-child {
+    width: 40%;
 }
 
-.form-separator span:nth-child(2)::after {
-  top: auto;
-  bottom: -6px;
+.form-separator span:nth-child(2) {
+    width: 20px;
+    height: 20px;
+    background: none;
+    border: 2px solid #2b2b2b;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    margin: 0 15px;
 }
 
