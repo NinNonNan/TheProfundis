@@ -16,12 +16,8 @@
 }
 
 @keyframes glow {
-    from {
-        text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold;
-    }
-    to {
-        text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px gold;
-    }
+    from { text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold; }
+    to { text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px gold; }
 }
 </style>
 </head>
@@ -38,7 +34,7 @@
     <h1>Invito Ufficiale</h1>
     <h2 id="intestazione-societa">Compagnia De Profundis</h2>
 
-    <form id="anagrafica">
+    <form id="anagrafica" target="hidden_iframe">
       <input type="hidden" id="societa" name="societa" value="Compagnia De Profundis">
 
       <label for="titolo">Appellativo</label>
@@ -70,31 +66,30 @@
       <!-- Qui comparirà la risposta con il link -->
       <div id="form-response" style="margin-top: 15px;"></div>
     </form>
+
+    <!-- iframe nascosto per leggere la risposta dal server -->
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
   </div>
 </div>
 
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw8ixFQxfnfARwL7mKKC72LgKDFO3W9SK2Q6XBqKOEaYDYKVYRFJUXtK66tf6TBYJm7fw/exec";
 
-function getQueryParam(param) {
-  let urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-}
-
 // Imposta società se passata via URL
-const societaFromUrl = getQueryParam("societa");
+const urlParams = new URLSearchParams(window.location.search);
+const societaFromUrl = urlParams.get("societa");
 if (societaFromUrl) {
   document.getElementById("societa").value = societaFromUrl;
   document.getElementById("intestazione-societa").innerText = societaFromUrl;
 }
 
-// Gestione submit con fetch
+// Intercetta submit e invia tramite iframe
 document.getElementById("anagrafica").addEventListener("submit", function(e){
   e.preventDefault();
-
   const submitBtn = document.getElementById("submit-btn");
-  submitBtn.disabled = true; // disabilita il pulsante
+  submitBtn.disabled = true;
 
+  // Crea query string
   const params = {
     societa: document.getElementById("societa").value,
     titolo: document.getElementById("titolo").value,
@@ -106,22 +101,24 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
     indirizzo: document.getElementById("indirizzo").value,
     note: document.getElementById("note").value
   };
-
   const queryString = Object.keys(params)
     .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
     .join("&");
 
-  fetch(WEB_APP_URL + "?" + queryString)
-    .then(res => res.text())
-    .then(folderUrl => {
-      // Mostra il link sotto il form, senza toccare il biglietto sopra
-      document.getElementById("form-response").innerHTML = 
+  const iframe = document.getElementsByName("hidden_iframe")[0];
+  iframe.src = WEB_APP_URL + "?" + queryString;
+
+  // Controlla quando la risposta arriva nell'iframe
+  iframe.onload = function() {
+    try {
+      const folderUrl = iframe.contentWindow.document.body.textContent.trim();
+      document.getElementById("form-response").innerHTML =
         'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
-    })
-    .catch(err => {
-      document.getElementById("form-response").innerText = "Errore nell'invio dei dati: " + err;
-      submitBtn.disabled = false; // riabilita in caso di errore
-    });
+    } catch(err) {
+      document.getElementById("form-response").innerText = "Errore nel recupero del link: " + err;
+      submitBtn.disabled = false;
+    }
+  };
 });
 </script>
 </body>
