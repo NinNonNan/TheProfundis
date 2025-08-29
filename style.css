@@ -104,13 +104,13 @@ button:hover {
   background: #444;
 }
 
-/* Link dorato animato */
+/* Link dorato più visibile e coerente con il font del messaggio */
 #form-response a {
-    font-family: 'Dancing Script', cursive;
-    color: gold;
+    font-family: 'Cinzel Decorative', serif; /* usa lo stesso font del resto */
+    color: #b8860b; /* oro scuro più visibile */
     text-decoration: underline;
-    text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold;
-    animation: glow 1.5s ease-in-out infinite alternate;
+    text-shadow: 0 0 2px #fff, 0 0 5px #b8860b, 0 0 10px #b8860b;
+    font-weight: bold;
 }
 
 @keyframes glow {
