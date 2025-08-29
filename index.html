@@ -72,7 +72,7 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
 
       // Mostra il messaggio personalizzato
       document.getElementById("form-response").innerHTML =
-        'Bene ' + params.titolo + ' ' + params.cognome + ', il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
+        'Bene ' + params.titolo + ' ' + params.cognome + ', il tuo viaggio comincia.<br> Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
     })
     .catch(err => {
       document.getElementById("form-response").innerText = "Errore nell'invio dei dati: " + err;
