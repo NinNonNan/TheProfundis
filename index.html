@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond&family=Dancing+Script&display=swap" rel="stylesheet">
 <style>
-/* Stile del link con bagliore dorato */
+/* Link dorato animato */
 #form-response a {
     font-family: 'Dancing Script', cursive;
     color: gold;
@@ -14,22 +14,17 @@
     text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold;
     animation: glow 1.5s ease-in-out infinite alternate;
 }
-
 @keyframes glow {
-    from {
-        text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold;
-    }
-    to {
-        text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px gold;
-    }
+    from { text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold; }
+    to { text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px gold; }
 }
 </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- Biglietto introduttivo invariato -->
-  <div class="intro-note" id="intro-note">
+  <!-- Biglietto introduttivo -->
+  <div class="intro-note">
     La tua mente, audace e curiosa, ti ha condotto fin qui.
     Oggi varchi la prima soglia verso un mondo più vasto, dove le risposte si nascondono tra ombre insondabili, e ogni verità svela nuove, oscure domande.
   </div>
@@ -67,45 +62,30 @@
 
       <button type="submit" id="submit-btn">Archivia</button>
 
-      <!-- Qui comparirà la risposta con il link -->
-      <div id="form-response" style="margin-top: 15px;"></div>
+      <div id="form-response" style="margin-top:15px;"></div>
     </form>
   </div>
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw8ixFQxfnfARwL7mKKC72LgKDFO3W9SK2Q6XBqKOEaYDYKVYRFJUXtK66tf6TBYJm7fw/exec"; // sostituisci con il tuo ID Web App
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw8ixFQxfnfARwL7mKKC72LgKDFO3W9SK2Q6XBqKOEaYDYKVYRFJUXtK66tf6TBYJm7fw/exec"; // sostituire con il tuo ID
 
-function getQueryParam(param) {
-  let urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-}
-
-// Imposta società se passata via URL
-const societaFromUrl = getQueryParam("societa");
-if (societaFromUrl) {
-  document.getElementById("societa").value = societaFromUrl;
-  document.getElementById("intestazione-societa").innerText = societaFromUrl;
-}
-
-// Gestione submit con fetch
 document.getElementById("anagrafica").addEventListener("submit", function(e){
   e.preventDefault();
-
   const submitBtn = document.getElementById("submit-btn");
-  submitBtn.disabled = true; // disabilita il pulsante
+  submitBtn.disabled = true;
 
   const params = Object.fromEntries(new FormData(this).entries());
   const queryString = new URLSearchParams(params).toString();
 
   fetch(WEB_APP_URL + "?" + queryString)
-    .then(res => res.text())  // riceve l'URL della cartella
+    .then(res => res.text())  // il server restituisce direttamente l'URL della cartella
     .then(folderUrl => {
       document.getElementById("form-response").innerHTML =
         'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
     })
     .catch(err => {
-      document.getElementById("form-response").innerText = "Errore nell'invio dei dati: " + err;
+      document.getElementById("form-response").innerText = "Errore nell\'invio dei dati: " + err;
       submitBtn.disabled = false;
     });
 });
