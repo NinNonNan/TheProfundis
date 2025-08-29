@@ -5,11 +5,19 @@
 <title>Invito Ufficiale</title>
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond&family=Dancing+Script&display=swap" rel="stylesheet">
+<style>
+/* Applichiamo lo stile manoscritto anni '20 anche al link */
+.intro-note a {
+    font-family: 'Dancing Script', cursive;
+    color: #000;
+    text-decoration: underline;
+}
+</style>
 </head>
 <body>
 <div class="container">
 
-  <div class="intro-note">
+  <div class="intro-note" id="intro-note">
     La tua mente, audace e curiosa, ti ha condotto fin qui.
     Oggi varchi la prima soglia verso un mondo più vasto, dove le risposte si nascondono tra ombre insondabili, e ogni verità svela nuove, oscure domande.
   </div>
@@ -45,16 +53,13 @@
       <label for="note">Note (tratti distintivi, legami, segreti)</label>
       <textarea id="note" name="note" rows="4"></textarea>
 
-      <button type="submit">Archivia</button>
+      <button type="submit" id="submit-btn">Archivia</button>
     </form>
-
-    <div id="success-message" style="margin-top:20px; font-weight:bold;"></div>
-
   </div>
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKSKKCNMPKOtC7Sd3enNA0fqLPdHlhd60cVJKDrDXCEAc_ykf2CmKR72ffEkvAxLmlVw/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw8ixFQxfnfARwL7mKKC72LgKDFO3W9SK2Q6XBqKOEaYDYKVYRFJUXtK66tf6TBYJm7fw/exec";
 
 function getQueryParam(param) {
   let urlParams = new URLSearchParams(window.location.search);
@@ -71,6 +76,9 @@ if (societaFromUrl) {
 // Gestione submit con fetch
 document.getElementById("anagrafica").addEventListener("submit", function(e){
   e.preventDefault();
+
+  const submitBtn = document.getElementById("submit-btn");
+  submitBtn.disabled = true; // disabilita il pulsante
 
   const params = {
     societa: document.getElementById("societa").value,
@@ -91,11 +99,13 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
   fetch(WEB_APP_URL + "?" + queryString)
     .then(res => res.text())
     .then(url => {
-      document.getElementById("success-message").innerHTML = 
-        'Dati inviati correttamente!<br>Cartella generata: <a href="' + url + '" target="_blank">' + url + '</a>';
+      // Aggiorna il testo dell'introduzione con link
+      document.getElementById("intro-note").innerHTML = 
+        'Bene, il viaggio comincia, puoi trovare <a href="' + url + '" target="_blank">qui</a> le istruzioni per muovere i tuoi primi passi...';
     })
     .catch(err => {
-      document.getElementById("success-message").innerText = "Errore nell'invio dei dati: " + err;
+      document.getElementById("intro-note").innerText = "Errore nell'invio dei dati: " + err;
+      submitBtn.disabled = false; // riabilita in caso di errore
     });
 });
 </script>
