@@ -48,13 +48,15 @@
       <button type="submit">Archivia</button>
     </form>
 
-    <iframe name="hidden_iframe" style="display:none;"></iframe>
+    <div id="link-output" style="margin-top:1em; font-weight:bold;"></div>
+
   </div>
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwaB45XqItCBfZNgsKZM3rsdceOXpDRN-uyK7hxI1wiBRKYzkTbOpH_FLP4mXCGFytw1A/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw8ixFQxfnfARwL7mKKC72LgKDFO3W9SK2Q6XBqKOEaYDYKVYRFJUXtK66tf6TBYJm7fw/exec";
 
+// Recupera parametri dalla URL
 function getQueryParam(param) {
   let urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
@@ -67,11 +69,10 @@ if (societaFromUrl) {
   document.getElementById("intestazione-societa").innerText = societaFromUrl;
 }
 
-// Intercetta submit
+// Gestione submit con fetch
 document.getElementById("anagrafica").addEventListener("submit", function(e){
   e.preventDefault();
 
-  // Prepara i parametri codificati
   const params = {
     societa: document.getElementById("societa").value,
     titolo: document.getElementById("titolo").value,
@@ -88,21 +89,13 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
     .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
     .join("&");
 
-  const iframe = document.getElementsByName("hidden_iframe")[0];
-
-  // Intercetta la risposta della Web App
-  iframe.onload = function() {
-    try {
-      const doc = iframe.contentDocument || iframe.contentWindow.document;
-      const folderLink = doc.body.innerText; // link della cartella creato dallo script
-      alert("Dati inviati correttamente!\nLink alla cartella: " + folderLink);
-    } catch(err) {
-      alert("Dati inviati, ma impossibile leggere il link della cartella.");
-    }
-  };
-
-  // Invio dati
-  iframe.src = WEB_APP_URL + "?" + queryString;
+  fetch(WEB_APP_URL + "?" + queryString)
+    .then(res => res.text())
+    .then(link => {
+      const outputDiv = document.getElementById("link-output");
+      outputDiv.innerHTML = `Dati inviati correttamente!<br>Link alla cartella: <a href="${link}" target="_blank">${link}</a>`;
+    })
+    .catch(err => alert("Errore nell'invio: " + err));
 });
 </script>
 </body>
