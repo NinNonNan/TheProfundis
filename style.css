@@ -116,7 +116,7 @@ button:hover {
 #form-response {
     margin-top: 1.5rem; /* spazio tra l'ultimo campo e la risposta */
     font-family: 'Cormorant Garamond', serif; /* font coerente con i campi */
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 @keyframes glow {
