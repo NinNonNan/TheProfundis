@@ -28,6 +28,7 @@
 <body>
 <div class="container">
 
+  <!-- Biglietto introduttivo invariato -->
   <div class="intro-note" id="intro-note">
     La tua mente, audace e curiosa, ti ha condotto fin qui.
     Oggi varchi la prima soglia verso un mondo più vasto, dove le risposte si nascondono tra ombre insondabili, e ogni verità svela nuove, oscure domande.
@@ -66,7 +67,7 @@
 
       <button type="submit" id="submit-btn">Archivia</button>
 
-      <!-- Qui comparirà il link di conferma -->
+      <!-- Qui comparirà la risposta con il link -->
       <div id="form-response" style="margin-top: 15px;"></div>
     </form>
   </div>
@@ -113,7 +114,7 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
   fetch(WEB_APP_URL + "?" + queryString)
     .then(res => res.text())
     .then(folderUrl => {
-      // Mostra il link sotto il form
+      // Mostra il link sotto il form, senza toccare il biglietto sopra
       document.getElementById("form-response").innerHTML = 
         'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
     })
