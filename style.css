@@ -123,3 +123,37 @@ button:hover {
     from { text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold; }
     to { text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px gold; }
 }
+
+/* Separatore Art Deco dinamico */
+.form-separator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 10px;
+}
+
+.form-separator span {
+  display: inline-block;
+  width: 40px;
+  height: 4px;
+  background: #000;
+  border-radius: 2px;
+  position: relative;
+}
+
+.form-separator span:nth-child(2)::before,
+.form-separator span:nth-child(2)::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  width: 6px;
+  height: 16px;
+  background: #000;
+}
+
+.form-separator span:nth-child(2)::after {
+  top: auto;
+  bottom: -6px;
+}
+
