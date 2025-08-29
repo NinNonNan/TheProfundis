@@ -6,15 +6,14 @@
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond&family=Dancing+Script&display=swap" rel="stylesheet">
 <style>
-/* Stile del link con bagliore dorato */
-.intro-note a {
+/* Stile del link dorato con bagliore animato */
+.confirmation a {
     font-family: 'Dancing Script', cursive;
-    color: #FFD700; /* dorato */
+    color: #FFD700;
     text-decoration: underline;
     text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 20px #FFA500, 0 0 30px #FFA500;
     animation: glow 1.5s ease-in-out infinite alternate;
 }
-
 @keyframes glow {
     from {
         text-shadow: 0 0 5px #FFD700, 0 0 10px #FFD700, 0 0 20px #FFA500, 0 0 30px #FFA500;
@@ -23,15 +22,14 @@
         text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFA500, 0 0 40px #FFA500;
     }
 }
+.confirmation {
+    margin-top: 15px;
+    font-size: 1.1em;
+}
 </style>
 </head>
 <body>
 <div class="container">
-
-  <div class="intro-note" id="intro-note">
-    La tua mente, audace e curiosa, ti ha condotto fin qui.
-    Oggi varchi la prima soglia verso un mondo più vasto, dove le risposte si nascondono tra ombre insondabili, e ogni verità svela nuove, oscure domande.
-  </div>
 
   <div class="form-container">
     <h1>Invito Ufficiale</h1>
@@ -65,6 +63,9 @@
       <textarea id="note" name="note" rows="4"></textarea>
 
       <button type="submit" id="submit-btn">Archivia</button>
+
+      <!-- Qui comparirà il messaggio di conferma -->
+      <div class="confirmation" id="confirmation"></div>
     </form>
     <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
   </div>
@@ -83,20 +84,19 @@ if (societaFromUrl) {
   document.getElementById("intestazione-societa").innerText = societaFromUrl;
 }
 
-// Gestione submit con iframe
+// Gestione submit tramite iframe
 const form = document.getElementById("anagrafica");
 const iframe = document.getElementById("hidden_iframe");
 const submitBtn = document.getElementById("submit-btn");
+const confirmationDiv = document.getElementById("confirmation");
 
 iframe.addEventListener("load", function() {
   try {
     const folderUrl = iframe.contentDocument.body.innerText.trim();
-    document.getElementById("intro-note").innerHTML = 
-      'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
+    confirmationDiv.innerHTML = 'Bene, il tuo viaggio comincia. Puoi trovare <a href="' + folderUrl + '" target="_blank">qui</a> le istruzioni per muovere i primi passi...';
     submitBtn.disabled = true;
   } catch(e) {
-    console.error("Errore nel recupero del link: ", e);
-    document.getElementById("intro-note").innerText = "Errore nell'invio dei dati, riprova.";
+    confirmationDiv.innerText = "Errore nell'invio dei dati, riprova.";
     submitBtn.disabled = false;
   }
 });
