@@ -48,7 +48,7 @@
       <button type="submit">Archivia</button>
     </form>
 
-    <div id="link-output" style="margin-top:1em; font-weight:bold;"></div>
+    <div id="success-message" style="margin-top:20px; font-weight:bold;"></div>
 
   </div>
 </div>
@@ -56,7 +56,6 @@
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKSKKCNMPKOtC7Sd3enNA0fqLPdHlhd60cVJKDrDXCEAc_ykf2CmKR72ffEkvAxLmlVw/exec";
 
-// Recupera parametri dalla URL
 function getQueryParam(param) {
   let urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(param);
@@ -91,11 +90,13 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
 
   fetch(WEB_APP_URL + "?" + queryString)
     .then(res => res.text())
-    .then(link => {
-      const outputDiv = document.getElementById("link-output");
-      outputDiv.innerHTML = `Dati inviati correttamente!<br>Link alla cartella: <a href="${link}" target="_blank">${link}</a>`;
+    .then(url => {
+      document.getElementById("success-message").innerHTML = 
+        'Dati inviati correttamente!<br>Cartella generata: <a href="' + url + '" target="_blank">' + url + '</a>';
     })
-    .catch(err => alert("Errore nell'invio: " + err));
+    .catch(err => {
+      document.getElementById("success-message").innerText = "Errore nell'invio dei dati: " + err;
+    });
 });
 </script>
 </body>
