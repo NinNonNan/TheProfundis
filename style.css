@@ -106,7 +106,7 @@ button:hover {
 
 /* Link dorato più visibile e coerente con il font del messaggio */
 #form-response a {
-    font-family: 'Cinzel Decorative', serif;
+    font-family: 'Cormorant Garamond', serif;
     color: #b8860b; /* oro scuro */
     text-decoration: underline;
     text-shadow: 0 0 2px #fff, 0 0 5px #b8860b, 0 0 10px #b8860b;
