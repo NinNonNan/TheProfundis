@@ -18,6 +18,7 @@
   <div class="form-container">
     <h1>Invito Ufficiale</h1>
     <h2 id="intestazione-societa">Compagnia De Profundis</h2>
+    <img id="logo-societa" class="logo-societa" src="" alt="Logo della società" style="display:none;">
 
     <form id="anagrafica">
       <input type="hidden" id="societa" name="societa" value="Compagnia De Profundis">
@@ -47,6 +48,7 @@
       <textarea id="note" name="note" rows="4"></textarea>
 
       <button type="submit" id="submit-btn">Archivia</button>
+      <div class="loader" id="loader"></div>
 
       <div id="form-response" style="margin-top:15px;"></div>
     </form>
@@ -56,18 +58,29 @@
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKSKKCNMPKOtC7Sd3enNA0fqLPdHlhd60cVJKDrDXCEAc_ykf2CmKR72ffEkvAxLmlVw/exec";
 
-// Sovrascrive il valore di società se presente nel parametro URL
 const urlParams = new URLSearchParams(window.location.search);
+
+// Cambia società se passata da URL
 const societaParam = urlParams.get("societa");
 if (societaParam) {
   document.getElementById("societa").value = societaParam;
   document.getElementById("intestazione-societa").innerText = societaParam;
 }
 
+// Mostra logo se parametro presente
+const logoParam = urlParams.get("logo");
+if (logoParam) {
+  const logoEl = document.getElementById("logo-societa");
+  logoEl.src = logoParam;
+  logoEl.style.display = "block";
+}
+
 document.getElementById("anagrafica").addEventListener("submit", function(e){
   e.preventDefault();
   const submitBtn = document.getElementById("submit-btn");
+  const loader = document.getElementById("loader");
   submitBtn.disabled = true;
+  loader.style.display = "block";
 
   const params = Object.fromEntries(new FormData(this).entries());
   const queryString = new URLSearchParams(params).toString();
@@ -76,6 +89,7 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
     .then(res => res.text())
     .then(folderUrl => {
       submitBtn.style.display = "none";
+      loader.style.display = "none";
 
       const separator = `
         <div class="form-separator">
@@ -88,6 +102,7 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
         'Bene ' + params.titolo + ' ' + params.cognome + ', il tuo viaggio comincia.<br>Puoi trovare <a href="' + folderUrl + '" target="_blank">QUI</a> le istruzioni per muovere i primi passi...';
     })
     .catch(err => {
+      loader.style.display = "none";
       document.getElementById("form-response").innerText = "Errore nell'invio dei dati: " + err;
       submitBtn.disabled = false;
     });
