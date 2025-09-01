@@ -38,7 +38,7 @@
       <input type="text" id="luogo" name="luogo">
       
       <label for="data">Data di Nascita</label>
-      <input type="text" id="data" name="data" value="1825-01-01">
+      <input type="text" id="data" name="data" placeholder="YYYY-MM-DD">
 
       <label for="professione">Professione</label>
       <input type="text" id="professione" name="professione">
@@ -56,6 +56,9 @@
     </form>
   </div>
 </div>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKSKKCNMPKOtC7Sd3enNA0fqLPdHlhd60cVJKDrDXCEAc_ykf2CmKR72ffEkvAxLmlVw/exec";
@@ -77,6 +80,7 @@ if (logoParam) {
   logoEl.style.display = "block";
 }
 
+// Gestione submit
 document.getElementById("anagrafica").addEventListener("submit", function(e){
   e.preventDefault();
   const submitBtn = document.getElementById("submit-btn");
@@ -109,15 +113,14 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
       submitBtn.disabled = false;
     });
 });
-  // Inizializza Flatpickr sul campo data
-  flatpickr("#data", {
+
+// Inizializza Flatpickr sul campo data
+flatpickr("#data", {
     dateFormat: "Y-m-d",      // formato compatibile con <input type="date">
     allowInput: true,         // permette di scrivere manualmente
-    altInput: false,          // puoi attivare true per formato visibile diverso
-    locale: {
-      firstDayOfWeek: 1       // settimana che parte dal lunedì
-    }
-  });
+    altInput: false,
+    locale: { firstDayOfWeek: 1 } // settimana che parte dal lunedì
+});
 </script>
 </body>
 </html>
