@@ -6,6 +6,8 @@
 <title>Invito Ufficiale</title>
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond&family=Dancing+Script&display=swap" rel="stylesheet">
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 <div class="container">
@@ -34,9 +36,9 @@
 
       <label for="luogo">Luogo di Nascita</label>
       <input type="text" id="luogo" name="luogo">
-
+      
       <label for="data">Data di Nascita</label>
-      <input type="date" id="data" name="data" value="1825-01-01">
+      <input type="text" id="data" name="data" value="1825-01-01">
 
       <label for="professione">Professione</label>
       <input type="text" id="professione" name="professione">
@@ -107,6 +109,15 @@ document.getElementById("anagrafica").addEventListener("submit", function(e){
       submitBtn.disabled = false;
     });
 });
+  // Inizializza Flatpickr sul campo data
+  flatpickr("#data", {
+    dateFormat: "Y-m-d",      // formato compatibile con <input type="date">
+    allowInput: true,         // permette di scrivere manualmente
+    altInput: false,          // puoi attivare true per formato visibile diverso
+    locale: {
+      firstDayOfWeek: 1       // settimana che parte dal lunedì
+    }
+  });
 </script>
 </body>
 </html>
