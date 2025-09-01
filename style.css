@@ -1,3 +1,4 @@
+/* ======= Corpo pagina e container ======= */
 body {
   font-family: 'Cinzel Decorative', serif;
   background: #f0e0c0;
@@ -13,6 +14,7 @@ body {
   position: relative;
 }
 
+/* ======= Biglietto introduttivo ======= */
 .intro-note {
   font-family: 'Dancing Script', cursive;
   font-size: 1.9rem;
@@ -27,6 +29,7 @@ body {
   transform: rotate(-2deg);
 }
 
+/* ======= Form ======= */
 .form-container {
   border: 4px double #000;
   padding: 2rem;
@@ -85,11 +88,9 @@ input, select, textarea {
   background: #fdfcf7;
   font-family: 'Cormorant Garamond', serif;
   font-size: 1rem;
-  box-sizing: border-box; /* incluso padding nella larghezza */
-  margin-left: 0;
-  margin-right: 0;
 }
 
+/* ======= Pulsanti ======= */
 button {
   margin-top: 2rem;
   padding: 0.6rem 1.5rem;
@@ -101,62 +102,56 @@ button {
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 2px;
-  box-sizing: border-box;
 }
 
 button:hover {
   background: #444;
 }
 
-/* Link dorato più visibile e coerente con il font del messaggio */
+/* ======= Risposta e link ======= */
 #form-response a {
-    font-family: 'Cormorant Garamond', serif;
-    color: #b8860b; /* oro scuro */
-    text-decoration: underline;
-    text-shadow: 0 0 2px #fff, 0 0 5px #b8860b, 0 0 10px #b8860b;
-    font-weight: bold;
+  font-family: 'Cormorant Garamond', serif;
+  color: #b8860b;
+  text-decoration: underline;
+  text-shadow: 0 0 2px #fff, 0 0 5px #b8860b, 0 0 10px #b8860b;
+  font-weight: bold;
 }
 
 #form-response {
-    margin-top: 5rem; /* spazio tra l'ultimo campo e la risposta */
-    font-family: 'Cormorant Garamond', serif; /* font coerente con i campi */
-    font-size: 1.5rem;
+  margin-top: 5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
 }
 
-@keyframes glow {
-    from { text-shadow: 0 0 5px #fff, 0 0 10px gold, 0 0 20px gold; }
-    to { text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 30px gold; }
-}
-
-/* Separatore Art Deco elegante, visibile solo con risposta */
+/* ======= Separatore Art Deco ======= */
 .form-separator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2.5rem 0; /* spazio sopra e sotto */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2.5rem 0;
 }
 
 .form-separator span {
-    display: block;
-    height: 2px;
-    background-color: #2b2b2b;
+  display: block;
+  height: 2px;
+  background-color: #2b2b2b;
 }
 
 .form-separator span:first-child,
 .form-separator span:last-child {
-    width: 40%;
+  width: 40%;
 }
 
 .form-separator span:nth-child(2) {
-    width: 20px;
-    height: 20px;
-    background: none;
-    border: 2px solid #2b2b2b;
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    margin: 0 15px;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: 2px solid #2b2b2b;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  margin: 0 15px;
 }
 
-/* Spinner di caricamento */
+/* ======= Loader ======= */
 .loader {
   border: 4px solid #f3f3f3;
   border-top: 4px solid #333;
@@ -178,11 +173,45 @@ button:hover {
   display: block;
 }
 
-/* --- Responsive per smartphone --- */
+/* ======= Flatpickr personalizzato ======= */
+.flatpickr-input {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  background: #fdfcf7;
+  border: 1px solid #444;
+  padding: 0.4rem;
+  width: 100%;
+}
+
+.flatpickr-calendar {
+  font-family: 'Cormorant Garamond', serif;
+  background: #fffef9;
+  border: 1px solid #444;
+}
+
+.flatpickr-month {
+  background: #fdfcf7;
+  color: #2b2b2b;
+}
+
+.flatpickr-weekdays {
+  background: #fdfcf7;
+  color: #2b2b2b;
+}
+
+.flatpickr-day {
+  color: #2b2b2b;
+}
+
+.flatpickr-day:hover {
+  background: #f0e0c0;
+}
+
+/* ======= Responsive ======= */
 @media (max-width: 600px) {
   body {
     padding: 1rem;
-    display: block; /* niente flex centrato, altrimenti stringe troppo */
+    display: block;
   }
 
   .container {
@@ -213,19 +242,17 @@ button:hover {
     font-size: 0.85rem;
   }
 
-  input, select, textarea {
+  input, select, textarea, .flatpickr-input {
     font-size: 0.9rem;
     padding: 0.35rem;
-    width: 100%;
-    margin: 0;
-    box-sizing: border-box;
+    width: 100%; /* garantisce allineamento corretto */
+    margin: 0; /* rimuove margine laterale decentrato */
   }
 
   button {
-    width: 100%; /* bottone largo per il dito */
+    width: 100%;
     font-size: 0.95rem;
     padding: 0.8rem;
-    box-sizing: border-box;
   }
 
   .logo-societa {
