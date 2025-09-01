@@ -85,6 +85,9 @@ input, select, textarea {
   background: #fdfcf7;
   font-family: 'Cormorant Garamond', serif;
   font-size: 1rem;
+  box-sizing: border-box; /* incluso padding nella larghezza */
+  margin-left: 0;
+  margin-right: 0;
 }
 
 button {
@@ -98,6 +101,7 @@ button {
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 2px;
+  box-sizing: border-box;
 }
 
 button:hover {
@@ -212,12 +216,16 @@ button:hover {
   input, select, textarea {
     font-size: 0.9rem;
     padding: 0.35rem;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
   }
 
   button {
     width: 100%; /* bottone largo per il dito */
     font-size: 0.95rem;
     padding: 0.8rem;
+    box-sizing: border-box;
   }
 
   .logo-societa {
