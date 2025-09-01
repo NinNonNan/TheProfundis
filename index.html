@@ -11,7 +11,6 @@
 </head>
 <body>
 <div class="container">
-  <!-- Biglietto introduttivo -->
   <div class="intro-note">
     La tua mente, audace e curiosa, ti ha condotto fin qui.
     Oggi varchi la prima soglia verso un mondo più vasto, dove le risposte si nascondono tra ombre insondabili, e ogni verità svela nuove, oscure domande.
@@ -38,7 +37,7 @@
       <input type="text" id="luogo" name="luogo">
       
       <label for="data">Data di Nascita</label>
-      <input type="text" id="data" name="data" placeholder="YYYY-MM-DD">
+      <input type="text" id="data" name="data" value="1825-01-01" placeholder="YYYY-MM-DD">
 
       <label for="professione">Professione</label>
       <input type="text" id="professione" name="professione">
@@ -51,7 +50,6 @@
 
       <button type="submit" id="submit-btn">Archivia</button>
       <div class="loader" id="loader"></div>
-
       <div id="form-response" style="margin-top:15px;"></div>
     </form>
   </div>
@@ -59,67 +57,61 @@
 
 <!-- Flatpickr JS -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKSKKCNMPKOtC7Sd3enNA0fqLPdHlhd60cVJKDrDXCEAc_ykf2CmKR72ffEkvAxLmlVw/exec";
-
-const urlParams = new URLSearchParams(window.location.search);
-
-// Cambia società se passata da URL
-const societaParam = urlParams.get("societa");
-if (societaParam) {
-  document.getElementById("societa").value = societaParam;
-  document.getElementById("intestazione-societa").innerText = societaParam;
-}
-
-// Mostra logo se parametro presente
-const logoParam = urlParams.get("logo");
-if (logoParam) {
-  const logoEl = document.getElementById("logo-societa");
-  logoEl.src = logoParam;
-  logoEl.style.display = "block";
-}
-
-// Gestione submit
-document.getElementById("anagrafica").addEventListener("submit", function(e){
-  e.preventDefault();
-  const submitBtn = document.getElementById("submit-btn");
-  const loader = document.getElementById("loader");
-  submitBtn.disabled = true;
-  loader.style.display = "block";
-
-  const params = Object.fromEntries(new FormData(this).entries());
-  const queryString = new URLSearchParams(params).toString();
-
-  fetch(WEB_APP_URL + "?" + queryString)
-    .then(res => res.text())
-    .then(folderUrl => {
-      submitBtn.style.display = "none";
-      loader.style.display = "none";
-
-      const separator = `
-        <div class="form-separator">
-          <span></span><span></span><span></span>
-        </div>
-      `;
-
-      document.getElementById("form-response").innerHTML =
-        separator +
-        'Bene ' + params.titolo + ' ' + params.cognome + ', il tuo viaggio comincia.<br>Puoi trovare <a href="' + folderUrl + '" target="_blank">QUI</a> le istruzioni per muovere i primi passi...';
-    })
-    .catch(err => {
-      loader.style.display = "none";
-      document.getElementById("form-response").innerText = "Errore nell'invio dei dati: " + err;
-      submitBtn.disabled = false;
+document.addEventListener("DOMContentLoaded", function() {
+    // Inizializza Flatpickr
+    flatpickr("#data", {
+        dateFormat: "Y-m-d",
+        allowInput: true,
+        clickOpens: true,
+        defaultDate: "1825-01-01",
+        locale: { firstDayOfWeek: 1 }
     });
-});
 
-// Inizializza Flatpickr sul campo data
-flatpickr("#data", {
-    dateFormat: "Y-m-d",      // formato compatibile con <input type="date">
-    allowInput: true,         // permette di scrivere manualmente
-    altInput: false,
-    locale: { firstDayOfWeek: 1 } // settimana che parte dal lunedì
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyKSKKCNMPKOtC7Sd3enNA0fqLPdHlhd60cVJKDrDXCEAc_ykf2CmKR72ffEkvAxLmlVw/exec";
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Cambia società se passata da URL
+    const societaParam = urlParams.get("societa");
+    if (societaParam) {
+        document.getElementById("societa").value = societaParam;
+        document.getElementById("intestazione-societa").innerText = societaParam;
+    }
+
+    // Mostra logo se parametro presente
+    const logoParam = urlParams.get("logo");
+    if (logoParam) {
+        const logoEl = document.getElementById("logo-societa");
+        logoEl.src = logoParam;
+        logoEl.style.display = "block";
+    }
+
+    document.getElementById("anagrafica").addEventListener("submit", function(e){
+        e.preventDefault();
+        const submitBtn = document.getElementById("submit-btn");
+        const loader = document.getElementById("loader");
+        submitBtn.disabled = true;
+        loader.style.display = "block";
+
+        const params = Object.fromEntries(new FormData(this).entries());
+        const queryString = new URLSearchParams(params).toString();
+
+        fetch(WEB_APP_URL + "?" + queryString)
+            .then(res => res.text())
+            .then(folderUrl => {
+                submitBtn.style.display = "none";
+                loader.style.display = "none";
+                const separator = `<div class="form-separator"><span></span><span></span><span></span></div>`;
+                document.getElementById("form-response").innerHTML =
+                    separator +
+                    'Bene ' + params.titolo + ' ' + params.cognome + ', il tuo viaggio comincia.<br>Puoi trovare <a href="' + folderUrl + '" target="_blank">QUI</a> le istruzioni per muovere i primi passi...';
+            })
+            .catch(err => {
+                loader.style.display = "none";
+                document.getElementById("form-response").innerText = "Errore nell'invio dei dati: " + err;
+                submitBtn.disabled = false;
+            });
+    });
 });
 </script>
 </body>
