@@ -278,4 +278,9 @@ button:hover {
   .logo-societa {
     max-width: 100px;
   }
+
+  /* Adatta Flatpickr per mobile */
+  .flatpickr-calendar {
+    font-size: 0.9rem !important;
+  }
 }
